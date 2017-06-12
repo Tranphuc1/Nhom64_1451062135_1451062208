@@ -1,10 +1,17 @@
-
+<?php
+session_start();
+//tiến hành kiểm tra là người dùng đã đăng nhập hay chưa
+//nếu chưa, chuyển hướng người dùng ra lại trang đăng nhập
+if (!isset($_SESSION['username'])) {
+	 header('Location: login.php');
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" type="text/css" href="tranphuc.css">
+	<link rel="stylesheet" type="text/css" href="tranphuc1.css">
 	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 	<script src="/ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script type="text/javascript" src="js/common.js"></script>
@@ -29,18 +36,7 @@
 					<input class="searchsubmit" type="submit" value="Tìm" />
 				</form>
 			<div class="shoptool">
-                	<ul class="right_topbar">
-	                    <li>
-	                        <div class="textlable1" title="Tài khoản của bạn">Tài khoản của bạn<i class="fa fa-sort-desc"></i>
-	                        </div>
-	                            <div class="subcontent">
-	                                 <div class="buttom">
-	    								<div><a href="javascript:" class="btn_face" onclick="checkLoginState();"></a></div>
-	    								<div><a class="btn_login" href="login/dangnhap.php">Đăng nhập</a></div>
-	    								<div align="center" class="loginlink">Khách hàng mới? <a href="login/dangky.php">Tạo tài khoản</a></div>
-									</div>
-	                            </div>
-	                    </li>
+						Chào <?php echo $_SESSION['username'];  ?>
 	                        <li>
 	                            <div class="textlable2" title="Giỏ hàng">Giỏ hàng (<span class="shownumber">0</span>)
 	                                <i class="fa fa-sort-desc"></i>

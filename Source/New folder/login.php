@@ -4,12 +4,11 @@
 <meta charset="utf-8" name="viewport" connect="width=decive-width, initial-scale=1">
 <title>LoginAdmin</title>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" >
+<script type="text/javascript" src="login_effect.js"></script>
 
 </head>
 <style type="text/css">
 .panel {width:500px; margin:0px auto;}
-.container{background: #00cc66}
-
 </style>
 <body>
 
@@ -18,27 +17,27 @@
 <script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
 </body>
 <div class="container">
-	<div class="panel panel-primary">
-    	<div class="panel-heading" >LOGIN</div>
+    <div class="panel panel-primary">
+        <div class="panel-heading" >LOGIN</div>
         <div class="panel-body">
-        	<table class="table-condensed" >
+            <table class="table-condensed" >
             <form method="post" class="form-control">
-            	<tr>
-                	<td>
-                    	<label for="username" >Username</label>
+                <tr>
+                    <td>
+                        <label for="username" >Username</label>
                         <input type="text" name="c_username" id="c_username" class="form-control" placeholder="Enter username" style="width:300px;"  required >
                     </td>
                 </tr>
                 <tr>
-                	<td>
-                    	<label for="password" >Password</label>
+                    <td>
+                        <label for="password" >Password</label>
                         <input type="password" name="c_password" id="c_password" class="form-control" placeholder="Enter password" style="width:300px;"  required>
                     </td>
                 </tr>
                 <tr>
-                	<td>
-                    	<input type="submit" name="btnsubmit" value="Login" class="btn btn-primary" >
-						<input type="reset" class="btn btn-primary" name="reset" value="Reset">
+                    <td>
+                        <input type="submit" name="btnsubmit" value="Login" onclick="responsivePHP()" class="btn btn-primary" >
+                        <input type="reset" class="btn btn-primary" name="reset" value="Reset">
                     </td>
                 </tr>
             </table>
