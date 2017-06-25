@@ -1,0 +1,23 @@
+*{
+	margin: 0;
+	padding:0;
+}
+body{
+	font-family: sans-serif;
+	color:#333;
+}
+.topmenu ul{
+	list-style-type: none;
+	background: #1f568B;
+	text-align: center;
+}
+.topmenu ul li{
+	display: inline-table;
+	width: 150px;
+	height: 50px;
+	line-height: 40px;
+}
+.topmenu ul li a{
+	color:#f1f1f1;
+	text-decoration: none;
+}

@@ -6,7 +6,7 @@
 	<form action="register.php" method="post">
 		<table>
 			<tr>
-				<td colspan="2">Form dang ky</td>
+				<td colspan="2">Form đăng ký</td>
 			</tr>	
 			<tr>
 				<td>Username :</td>

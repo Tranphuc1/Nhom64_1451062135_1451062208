@@ -41,15 +41,15 @@ body {
 	border: #00cc66 2px solid;
 	float: right;
 	margin: 2px 2px 2px 2px;
-	height: 25px;
+	height: 22px;
 	padding-top: 1px;
 }
 .searchform input[type=text] {
-	height: 26px;
+	height: 23px;
     padding: 2px 1%;
     margin: 0 0 0 0;
     font-size: 12px;
-    width: 87%;
+    width: 300px;
     color: #000000;
     font-variant: normal;
     line-height: normal;
@@ -81,7 +81,13 @@ body {
 	padding:0;
 	list-style:none;
 }
-
+.header .right_header .shoptool .logout a{
+	list-style-type: none;
+}
+}
+.header .right_header .shoptool .youruser{
+	list-style: none;
+}
 .header .rightheader .shoptool ul li
 {
 	margin:0 0 0 10px;
@@ -757,7 +763,6 @@ h2 a:hover
 	padding:0;
 	list-style:none;
 }
-
 .footer_menu ul li.group
 {
 	text-transform:capitalize;

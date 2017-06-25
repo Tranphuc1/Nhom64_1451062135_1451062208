@@ -3,7 +3,7 @@ session_start();
 //tiến hành kiểm tra là người dùng đã đăng nhập hay chưa
 //nếu chưa, chuyển hướng người dùng ra lại trang đăng nhập
 if (!isset($_SESSION['username'])) {
-	 header('Location: login.php');
+	 header('Location: login/login.php');
 }
 ?>
 <!DOCTYPE html>
@@ -11,7 +11,7 @@ if (!isset($_SESSION['username'])) {
 <head>
 	<title></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" type="text/css" href="tranphuc1.css">
+	<link rel="stylesheet" type="text/css" href="css/tranphuc2.css">
 	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 	<script src="/ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script type="text/javascript" src="js/common.js"></script>
@@ -36,21 +36,18 @@ if (!isset($_SESSION['username'])) {
 					<input class="searchsubmit" type="submit" value="Tìm" />
 				</form>
 			<div class="shoptool">
-						Chào <?php echo $_SESSION['username'];  ?>
-	                        <li>
-	                            <div class="textlable2" title="Giỏ hàng">Giỏ hàng (<span class="shownumber">0</span>)
-	                                <i class="fa fa-sort-desc"></i>
-	                            </div>
+							<div class="youruser">
+								<h5>Chào <?php echo $_SESSION['username'];  ?></h5>
+	                        </div>
 	                            <div class="subcontent">
 	                                <h3>Giỏ hàng</h3>
-	                                <div id="cartslist">
-	                                </div>
 	                                <div class="buttom" id="showcartlink">
-	                              		<a class="cartlink" href="/orders/carts/gio-hang.html" title="GIỎ HÀNG CỦA TÔI">Xem giỏ hàng<i class="fa fa-play"></i></a>
+	                              		<a class="cartlink" href="#" title="GIỎ HÀNG CỦA TÔI">Xem giỏ hàng<i class="fa fa-play"></i></a>
 	                                </div>
 	                            </div>
-	                        </li>
-                	</ul>
+	                        <div class="logout">
+								<a href="logout.php">Logout</a>
+           					</div>
            	</div>
         </div>
     </div>
@@ -288,102 +285,6 @@ if (!isset($_SESSION['username'])) {
 			}
 		});		
 	});
-	
-	function getcartnumber()
-	{					
-		address = '/home/cartnumber/index.html';
-		$.ajax({
-			url: address,
-			dataType: "json",
-			type: "GET",
-			cache: false,
-			error: function(e)
-			{
-				Boxy.alert('Lỗi ajax', null, {title: 'Thông báo'});
-				return;
-			},
-			success: function(data)
-			{
-				$('.shownumber').empty();
-				$('.shownumber').append(data.id);
-				if(data.id > 0)
-				{
-					getcartslist();
-				}
-				else
-				{					
-					$('#showcartlink').hide();
-					$('#cartslist').empty();
-					$('#cartslist').append('<span class="empty">Giỏ hàng chưa có sản phẩm</span>');
-				}
-			}
-		});
-	}
-	
-	function getcartslist()
-	{
-		address = '/home/cartslist/index.html';
-		$.ajax({
-			url: address,
-			dataType: "html",
-			type: "GET",
-			cache: false,
-			error: function(e)
-			{
-				Boxy.alert('Lỗi ajax', null, {title: 'Lỗi'});
-				return false;
-			},
-			success: function(data)
-			{
-				if(data)
-				{
-					$("#cartslist").empty();
-					$("#cartslist").append(data);
-				}
-				else
-				{
-					$('#showcartlink').hide();
-					$('#cartslist').empty();
-					$('#cartslist').append('<span class="empty">Giỏ hàng chưa có sản phẩm</span>');
-				}
-				return true;
-			}
-		});
-	}
-	
-	function delecart(id, pid)
-	{
-		address = '/home/delete/index.html';
-		address = addQuery(address, 'id='+id);		
-		$.ajax({
-			url: address,
-			dataType: "json",
-			type: "GET",
-			cache: false,
-			error: function(e)
-			{
-				Boxy.alert('Lỗi ajax', null, {title: 'Thông báo'});
-				return;
-			},
-			success: function(data)
-			{
-				if(data.id > 0)
-				{
-					getcartnumber();
-				}
-				else
-				{
-					Boxy.alert('Lỗi ajax', null, {title: 'Thông báo'});
-				}				
-			}
-		});
-	}
-	
-	$(function()
-	{
-		$('.cartlink').boxy({ovlay:true, unloadOnHide:true});
-		getcartnumber();
-	});
 </script>
 
 <div class="slideshow-container">
@@ -522,75 +423,6 @@ if (!isset($_SESSION['username'])) {
         </div>
 	</div>
 	<div class="clear"></div>
-	<script>
-		var pagen = 1;
-		var countn = 4;
-		$( "#prevn" ).addClass( "disable" );
-		if(countn <= 1) $( "#nextn" ).addClass( "ndisable" );
-    	function showproduct(step)
-		{
-			if((pagen ==1 && step == -1) || (pagen ==countn && step == 1)) return;
-			
-			pagen = pagen + step;
-			if(pagen < 1)
-			{
-				pagen = 1;
-			}
-			
-			if(pagen == 1)
-			{
-				$( "#prevn" ).addClass( "disable" );
-			}else
-			{
-				$( "#prevn" ).removeClass( "disable" );
-			}
-			
-			if(pagen == countn || pagen > countn)
-			{
-				$( "#nextn" ).addClass( "ndisable" );
-			}else
-			{
-				$( "#nextn" ).removeClass( "ndisable" );
-			}
-			
-			address = '/home/newproducts/index.html';
-			address = addQuery(address, 'page='+pagen);
-			$.ajax({
-				url: address,
-				dataType: "html",
-				type: "GET",
-				cache: false,
-				error: function(e)
-				{
-					Boxy.alert('Lỗi ajax', null, {title: 'Lỗi'});
-					return false;
-				},
-				success: function(data)
-				{
-					$("#ajaxncontainer").empty();
-					$("#ajaxncontainer").append(data);
-					i = 0;
-					if(step == 1)
-					{
-						$(".hide").each(function(index)
-						{
-							$(this).delay(50 * i).fadeIn(100);
-							i++;			
-						});
-					}
-					else
-					{
-						$($(".hide").get().reverse()).each(function(index)
-						{
-							$(this).delay(50 * i).fadeIn(100);
-							i++;			
-						});
-					}
-					return true;
-				}
-			});
-		}
-    </script>
 </div>
 
             <div class="block" id="module_publishing">
@@ -680,75 +512,6 @@ if (!isset($_SESSION['username'])) {
         </div>
 	</div>
 	<div class="clear"></div>
-    <script>
-		var page = 1;
-		var count = 2;
-		$( "#pprev" ).addClass( "disable" );
-		if(count <= 1) $( "#pnext" ).addClass( "ndisable" );
-    	function publishing(step)
-		{
-			if((page ==1 && step == -1) || (page ==count && step == 1)) return;
-			
-			page = page + step;
-			if(page < 1)
-			{
-				page = 1;
-			}
-			
-			if(page == 1)
-			{
-				$( "#pprev" ).addClass( "disable" );
-			}else
-			{
-				$( "#pprev" ).removeClass( "disable" );
-			}
-			
-			if(page == count || page > count)
-			{
-				$( "#pnext" ).addClass( "ndisable" );
-			}else
-			{
-				$( "#pnext" ).removeClass( "ndisable" );
-			}
-			
-			address = '/home/publishing/index.html';
-			address = addQuery(address, 'page='+page);
-			$.ajax({
-				url: address,
-				dataType: "html",
-				type: "GET",
-				cache: false,
-				error: function(e)
-				{
-					Boxy.alert('Lỗi ajax', null, {title: 'Lỗi'});
-					return false;
-				},
-				success: function(data)
-				{
-					$("#ajaxcontainer").empty();
-					$("#ajaxcontainer").append(data);
-					i = 0;
-					if(step == 1)
-					{
-						$(".hide").each(function(index)
-						{
-							$(this).delay(50 * i).fadeIn(100);
-							i++;			
-						});
-					}
-					else
-					{
-						$($(".hide").get().reverse()).each(function(index)
-						{
-							$(this).delay(50 * i).fadeIn(100);
-							i++;			
-						});
-					}
-					return true;
-				}
-			});
-		}
-    </script>
 </div>
             <div class="block" id="module_bestseller">
 	<h2>
@@ -838,195 +601,66 @@ if (!isset($_SESSION['username'])) {
         </div>
 	</div>
 	<div class="clear"></div>
-    <script>
-		var pageb = 1;
-		var countb = 4;
-		$( "#bprev" ).addClass( "disable" );
-		if(countb <= 1) $( "#bnext" ).addClass( "ndisable" );
-    	function bestproduct(step)
-		{
-			if((pageb ==1 && step == -1) || (pageb ==countb && step == 1)) return;
-			
-			pageb = pageb + step;
-			if(pageb < 1)
-			{
-				pageb = 1;
-			}
-			
-			if(pageb == 1)
-			{
-				$( "#bprev" ).addClass( "disable" );
-			}else
-			{
-				$( "#bprev" ).removeClass( "disable" );
-			}
-			
-			if(pageb == countb || pageb > countb)
-			{
-				$( "#bnext" ).addClass( "ndisable" );
-			}else
-			{
-				$( "#bnext" ).removeClass( "ndisable" );
-			}
-			
-			address = '/home/bestseller/index.html?datetime=7';
-			address = addQuery(address, 'page='+pageb);
-			$.ajax({
-				url: address,
-				dataType: "html",
-				type: "GET",
-				cache: false,
-				error: function(e)
-				{
-					Boxy.alert('Lỗi ajax', null, {title: 'Lỗi'});
-					return false;
-				},
-				success: function(data)
-				{
-					$("#bajaxcontainer").empty();
-					$("#bajaxcontainer").append(data);
-					i = 0;
-					if(step == 1)
-					{
-						$(".hide").each(function(index)
-						{
-							$(this).delay(50 * i).fadeIn(100);
-							i++;			
-						});
-					}
-					else
-					{
-						$($(".hide").get().reverse()).each(function(index)
-						{
-							$(this).delay(50 * i).fadeIn(100);
-							i++;			
-						});
-					}
-					return true;
-				}
-			});
-		}
-    </script>
-    <div class="block " id="content_seohome"><div class="blockcontent"><h1>
-	Mua S&aacute;ch Online Tại Nobita.Vn</h1>
+
+    <div class="block " id="content_seohome"><div class="blockcontent"><h1>Mua S&aacute;ch Online Tại Nobita.Vn</h1>
 </div></div>
 		</div>
 	</div>
 	<div id="footer">
-        <div id="container">
-    <div class="footer_menu">
-        <div class="block " id="menu_Footer"><div class="blockcontent"><ul><li class="group">Hỗ trợ khách hàng<ul><li class="group">Hotline: <b>097. 4941. 097</b></li><li class="group">Email: info@nobita.vn</li></ul></li><li class="group">Giới thiệu<ul><li ><a href="/gioi-thieu-nobita.html" title="Về nobita" target="_self">Về nobita</a></li><li ><a href="/tuyen-dung.html" title="Tuyển dụng" target="_self">Tuyển dụng</a></li></ul></li><li class="group">Tài khoản<ul><li ><a href="/users/login/index.html" title="Tài khoản" target="_self">Tài khoản</a></li><li ><a href="/users/login/index.html" title="Danh sách đơn hàng" target="_self">Danh sách đơn hàng</a></li><li ><a href="/users/login/index.html" title="Thông báo" target="_self">Thông báo</a></li></ul></li><li class="group">Hướng dẫn<ul><li ><a href="/huong-dan-mua-hang.html" title="Hướng dẫn mua hàng" target="_self">Hướng dẫn mua hàng</a></li><li ><a href="/phuong-thuc-thanh-toan.html" title="Phương thức thanh toán" target="_self">Phương thức thanh toán</a></li><li ><a href="/contents/danh-muc/2/cau-hoi-thuong-gap.html" title="Câu hỏi thường gặp" target="_self">Câu hỏi thường gặp</a></li><li ><a href="/phuong-thuc-van-chuyen.html" title="Phương thức vận chuyển" target="_self">Phương thức vận chuyển</a></li></ul></li></ul></div></div>
-    </div>
-    <div class="facebook">
-<iframe src="//www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fnobita.vn&amp;width=300&amp;height=200&amp;colorscheme=light&amp;show_faces=true&amp;header=false&amp;stream=false&amp;show_border=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:300px; height:200px;" allowTransparency="true"></iframe>    </div>
-    <div class="clear"></div>
-    <div class="footer_address">
-        <div class="block " id="content_FooterAddress"><div class="blockcontent"><div style="text-align: center;">
-	Copyright &copy; 2014 Nobita.vn</div>
-<div style="text-align: center;">
-	&nbsp;</div>
-<div style="text-align: center;">
-	Địa chỉ: Số 9, đường 59, P. Thảo Điền, Quận 2, TP. Hồ Ch&iacute; Minh</div>
-<div style="text-align: center;">
-	&nbsp;</div>
-<div style="text-align: center;">
-	&nbsp;</div>
-</div></div>
-    </div>
-</div>
-<div class="homecoupon">
-    <div class="titlebar">
-    	<div class="fleft">Nhiều ưu đãi hấp dẫn đang chờ bạn</div>
-        <div class="fright"><span onclick="showdialog(0)">-</span></div>
-        <div class="clear"></div>
-    </div>
-    <form action="/newsletters/submit/index.html" onsubmit="updateemail(this); return false;" id="homecoupon">
-    	<div align="center" style="margin:5px">
-        	<input placeholder="Nhập email của bạn vào đây" type="email" value="" id="newemail" class="homeemail" name="newemail" required="">
-        </div>
-        <div align="center" style="margin:5px">
-        	<input type="submit" class="homesubmit" value="Đăng ký" name="subscribe" id="homesubmit">
-        </div>
-        <span id="help1"></span>
-        <input type="hidden" name="C0ed14b567757f5bb1e11b11fac23a48d" value="1" />
-    </form>
-</div>
-<div class="coupon">
-    <a href="javascript:" onclick="showdialog(1)">Ưu đãi</a>
-</div>
-<div id='bttop' class="bttop"><i class="fa fa-arrow-up"></i></div>
-<script language="javascript" type="text/javascript">
-	$(function(){
-		$(window).scroll(function(){if($(this).scrollTop()!=0){
-			$('#bttop').fadeIn();}else{$('#bttop').fadeOut();}});
-			$('#bttop').click(function(){$('body,html').animate({scrollTop:0},800);
-		});		
-	});
-	function showdialog(value)
-	{
-		if(value == 1)
-		{
-			$(".homecoupon").show();
-		}else
-		{
-			$(".homecoupon").hide();
-		}
-	}
-	
-	function updateemail(obj)
-	{		
-		address = obj.action;	
-		var formdata = $("#homecoupon").serialize();		
-		$.ajax({
-			type: "POST",
-			dataType: "html",
-			url: address,
-			data: formdata,
-			cache: false,
-			error: function(e)
-			{
-				Boxy.alert('Lỗi ajax', null, {title: 'Lỗi ajax'});
-			},
-			success: function(data)
-			{
-				if(data != '')
-				{
-					$("#help1").empty();
-					$("#help1").append(data);
-					gde('newemail').value = '';
-				}
-			}
-		});
-	};
-	
-	var previousScroll = 0;
-	$(window).scroll(function()
-	{
-		var currentScroll = $(this).scrollTop();
-		if (currentScroll < previousScroll && currentScroll > 300)
-		{
-			if($('.top_header').css('position') != 'fixed')
-			{
-				$('.top_header').css('position','fixed');
-			}
-		}else
-		{
-			$('.top_header').css('position','inherit');
-		}
-		previousScroll = currentScroll;
-	});
+	        <div id="container">
+			    <div class="footer_menu">
+			        <div class="block " id="menu_Footer">
+			        	<div class="blockcontent">
+			        		<ul>
+			        			<li class="group">Hỗ trợ khách hàng
+			        				<ul>
+			        					<li class="group">Hotline: <b>0967.701.195</b></li>
+			        					<li class="group">Email: tranphuc301995@nobita.vn</li>
+			        				</ul>
+			        			</li>
+			        			<li class="group">Giới thiệu
+			        				<ul>
+			        					<li ><a href="/gioi-thieu-nobita.html" title="Về nobita" target="_self">Về nobita</a></li>
+			        					<li ><a href="/tuyen-dung.html" title="Tuyển dụng" target="_self">Tuyển dụng</a></li>
+			        				</ul>
+			        			</li>
+			        			<li class="group">Tài khoản
+			        				<ul>
+			        					<li ><a href="/users/login/index.html" title="Tài khoản" target="_self">Tài khoản</a></li>
+			        					<li ><a href="/users/login/index.html" title="Danh sách đơn hàng" target="_self">Danh sách đơn hàng</a></li>
+			        					<li ><a href="/users/login/index.html" title="Thông báo" target="_self">Thông báo</a></li>
+			        				</ul>
+			        			</li>
+			        			<li class="group">Hướng dẫn
+			        				<ul>
+			        					<li ><a href="/huong-dan-mua-hang.html" title="Hướng dẫn mua hàng" target="_self">Hướng dẫn mua hàng</a></li>
+			        					<li ><a href="/phuong-thuc-thanh-toan.html" title="Phương thức thanh toán" target="_self">Phương thức thanh toán</a>	</li>
+			        					<li ><a href="/contents/danh-muc/2/cau-hoi-thuong-gap.html" title="Câu hỏi thường gặp" target="_self">Câu hỏi thường 	gặp</a></li>
+			        					<li ><a href="/phuong-thuc-van-chuyen.html" title="Phương thức vận chuyển" target="_self">Phương thức vận chuyển</a></li>
+			        				</ul>
+			        			</li>
+			        		</ul>
+			        	</div>
+			        </div>
+			    </div>
+			    <div class="clear"></div>
+			    <div class="footer_address">
+			        <div class="block " id="content_FooterAddress"><div class="blockcontent"><div style="text-align: center;">
+				Copyright &copy; 2014 Nobita.vn</div>
+			<div style="text-align: center;">
+				&nbsp;</div>
+			<div style="text-align: center;">
+				Địa chỉ: Số Nhà 3,Ngõ 354/159/38 Trường Chinh</div>
+			<div style="text-align: center;">
+				&nbsp;</div>
+			<div style="text-align: center;">
+				&nbsp;</div>
+			</div></div>
+			    </div>
+			</div>
 
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	</div>
 	
-	ga('create', 'UA-56977516-1', 'auto');
-	ga('send', 'pageview');
-
-	
-</script>
-    </div>
 </div>
 </body>
 </html>

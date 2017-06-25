@@ -1,4 +1,4 @@
-	<html>
+<html>
 	<head>
 		<title> Form đăng ký thành viên</title>
 	</head>
@@ -18,7 +18,6 @@
   					// Kiểm tra tài khoản đã tồn tại chưa
   					$sql="select * from user where username='$username'";
 					$kt=mysqli_query($conn, $sql);
-
 					if(mysqli_num_rows($kt)  > 0){
 						echo "Tài khoản đã tồn tại";
 					}else{
@@ -73,7 +72,7 @@
                     </td>
             </tr>
 			<tr>
-				<td colspan="2" align="center"><input type="submit" name="btn_submit" value="Dang ky"></td>
+				<td colspan="2" align="center"><input type="submit" name="btn_submit" value="Đăng Ký"></td>
 			</tr>
 
 		</table>
